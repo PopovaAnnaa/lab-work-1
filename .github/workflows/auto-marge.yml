@@ -1,0 +1,39 @@
+name: Auto Merge Main into Feature Branches
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "*/1 * * * *"  
+  workflow_dispatch:
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # отримання всіх гілок
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Get all branches except main
+        id: branches
+        run: echo "BRANCHES=$(git branch -r | grep 'origin/' | grep -v 'origin/main' | sed 's/origin\///' | tr '\n' ' ')" >> $GITHUB_ENV
+
+      - name: Merge main into all branches
+        run: |
+          for branch in $BRANCHES; do
+            echo "Merging into $branch..."
+            git checkout $branch
+            git merge origin/main --no-edit || echo "Merge conflict in $branch! Needs manual resolve."
+            git push origin $branch || echo "Push failed for $branch"
+          done
