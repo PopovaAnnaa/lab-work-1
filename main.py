@@ -1,14 +1,14 @@
 import pygame
-import menu
-import game
+import main_menu
+import gameplay
 
 pygame.init()
 
 def main():
     while True:
-        choice = menu.show_menu()
+        choice = main_menu.show_menu()
         if choice == "play":
-            game.run_game()
+            gameplay.run_game()
         elif choice == "quit":
             pygame.quit()
             break
