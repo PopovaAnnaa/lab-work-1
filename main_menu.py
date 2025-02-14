@@ -1,5 +1,6 @@
 import pygame
 import sys
+from car_customization import customization_screen
 
 pygame.init()
 
@@ -42,8 +43,8 @@ def show_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.collidepoint((mx, my)):
                     return "play"
-                if settings_button.collidepoint((mx, my)):  
-                    return "settings"
+                if settings_button.collidepoint((mx, my)):   
+                    customization_screen()  # Відкриває екран кастомізації
                 if quit_button.collidepoint((mx, my)):
                     return "quit"
 
