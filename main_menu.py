@@ -21,17 +21,19 @@ def draw_text(text, font, color, surface, x, y):
 def show_menu():
     while True:
         screen.fill(WHITE)
-
         mx, my = pygame.mouse.get_pos()
 
         play_button = pygame.Rect(300, 200, 200, 60)
-        quit_button = pygame.Rect(300, 300, 200, 60)
+        settings_button = pygame.Rect(300, 300, 200, 60)
+        quit_button = pygame.Rect(300, 400, 200, 60)
 
         pygame.draw.rect(screen, GRAY if play_button.collidepoint((mx, my)) else BLACK, play_button)
+        pygame.draw.rect(screen, GRAY if settings_button.collidepoint((mx, my)) else BLACK, settings_button)
         pygame.draw.rect(screen, GRAY if quit_button.collidepoint((mx, my)) else BLACK, quit_button)
 
         draw_text("Play", font, WHITE, screen, 400, 230)
-        draw_text("Quit", font, WHITE, screen, 400, 330)
+        draw_text("Settings", font, WHITE, screen, 400, 330)  
+        draw_text("Quit", font, WHITE, screen, 400, 430)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -40,6 +42,8 @@ def show_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.collidepoint((mx, my)):
                     return "play"
+                if settings_button.collidepoint((mx, my)):  
+                    return "settings"
                 if quit_button.collidepoint((mx, my)):
                     return "quit"
 
