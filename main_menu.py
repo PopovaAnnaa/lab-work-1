@@ -29,7 +29,6 @@ def show_menu():
         settings_button = pygame.Rect(300, 300, 200, 60)
         quit_button = pygame.Rect(300, 400, 200, 60)
 
-        # Подсветка кнопок при наведении (опционально)
         if play_button.collidepoint((mx, my)):
             pygame.draw.rect(screen, GRAY, play_button, border_radius=10)
         if settings_button.collidepoint((mx, my)):
@@ -37,7 +36,6 @@ def show_menu():
         if quit_button.collidepoint((mx, my)):
             pygame.draw.rect(screen, GRAY, quit_button, border_radius=10)
 
-        # Отображение изображений
         screen.blit(play_img, (300, 200))
         screen.blit(settings_img, (300, 300))
         screen.blit(quit_img, (300, 400))
