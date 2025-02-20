@@ -3,6 +3,7 @@ import random
 import json
 import os
 
+
 pygame.init()
 
 WIDTH, HEIGHT = 800, 600
