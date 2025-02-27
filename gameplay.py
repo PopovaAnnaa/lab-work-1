@@ -5,7 +5,7 @@ import os
 
 pygame.init()
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 800, 750
 LANES = [WIDTH // 5, WIDTH // 5 * 2, WIDTH // 5 * 3, WIDTH // 5 * 4]
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
