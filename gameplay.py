@@ -3,10 +3,9 @@ import random
 import json
 import os
 
-
 pygame.init()
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 800, 750
 LANES = [WIDTH // 5, WIDTH // 5 * 2, WIDTH // 5 * 3, WIDTH // 5 * 4]
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -21,6 +20,7 @@ WHITE = (255, 255, 255)
 clock = pygame.time.Clock()
 FPS = 60
 
+# Зчитування даних з json
 def load_game_data():
     if not os.path.exists("game_data.json") or os.path.getsize("game_data.json") == 0:
         return {"score": 0, "highscore": 0}
@@ -41,6 +41,7 @@ def load_customization_data():
         print(f"Error: {e}")
         return {"selected_skin": "cars1.png"}
 
+# Функция сохранения данных
 def save_game_data(data):
     try:
         with open("game_data.json", "w") as file:
@@ -55,9 +56,11 @@ def save_customization_data(data):
     except Exception as e:
         print(f"Error: {e}")
 
+# Завантажуємо вибраний скин
 game_data = load_game_data()
 customization_data = load_customization_data()
 
+# Загружаем изображение выбранного скина
 car_image = pygame.image.load(os.path.join("assets/cars", customization_data["selected_skin"]))
 car_image = pygame.transform.scale(car_image, (80, 160))
 
@@ -68,7 +71,7 @@ obstacle_images = [
 ]
 obstacle_images = [pygame.transform.scale(img, (80, 160)) for img in obstacle_images]
 
-font = pygame.font.Font("fonts/Minecraft.ttf", 30)
+font = pygame.font.SysFont(None, 36)
 
 def show_score(score):
     score_text = font.render(f"Score: {score}", True, WHITE)
