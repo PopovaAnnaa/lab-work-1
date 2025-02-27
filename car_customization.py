@@ -67,8 +67,6 @@ def customization_screen():
     running = True
     while running:
         screen.fill(WHITE)
-        screen.blit(road_images[selected_road], (0, 0))
-
         mx, my = pygame.mouse.get_pos()
 
         
