@@ -73,7 +73,7 @@ def customization_screen():
 
         draw_text("Car Customization", font, BLACK, screen, WIDTH // 2, 50)
 
-        back_button = pygame.Rect(50, 500, 150, 60)
+        back_button = pygame.Rect(50, 650, 150, 60)
         pygame.draw.rect(screen, GRAY if back_button.collidepoint((mx, my)) else BLACK, back_button)
         draw_text("Back", font, WHITE, screen, back_button.centerx, back_button.centery)
 
@@ -86,7 +86,7 @@ def customization_screen():
             draw_text(f"{skin.split('.')[0]} - {skin_costs[skin]} pts", font, WHITE, screen, button.centerx, button.centery)
             y_offset += 120
 
-        road_y_offset = 400
+        road_y_offset = 500
         for road in roads:
             road_button = pygame.Rect(600, road_y_offset, 150, 60)
             pygame.draw.rect(screen, GRAY if road != selected_road else (0, 255, 0), road_button)
@@ -124,12 +124,11 @@ def customization_screen():
 
         road_x, road_y = 150, 450
         for road in roads:
-            button = pygame.Rect(road_x, road_y, 150, 100)
-            pygame.draw.rect(screen, GRAY if road != selected_road else (0, 255, 0), button)
-            road_image = pygame.transform.scale(road_images[road], (120, 80))
-            screen.blit(road_image, (road_x + 15, road_y + 10))
 
-            road_x += 180  
+            road_image = pygame.transform.scale(road_images[road], (120, 80))  # Розмір картинки
+            screen.blit(road_image, (road_x + 15, road_y + 10))  # Відображаємо картинку на екрані
+            
+            road_y += 120  # Відступ між елементами
 
         pygame.display.flip()
 
