@@ -71,6 +71,7 @@ def customization_screen():
 
         
 
+
         draw_text("Car Customization", font, BLACK, screen, (WIDTH//2)-150 , 50)
 
         back_button = pygame.Rect(50, 650, 150, 60)
