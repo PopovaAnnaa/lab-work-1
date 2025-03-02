@@ -4,7 +4,7 @@ from car_customization import customization_screen
 
 pygame.init()
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 1250, 750
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Main Menu")
 
@@ -13,7 +13,6 @@ try:
 except IOError:
     print("Font not found, using default font.")
     font = pygame.font.Font(None, 50)  
-    
     
 WHITE = (255, 255, 255)
 GRAY = (170, 170, 170)
@@ -35,9 +34,12 @@ def show_menu():
     while True:
         screen.fill(WHITE)
         
-        play_button = draw_button("Play", 300, 200, 200, 60)
-        settings_button = draw_button("Settings", 300, 300, 200, 60)
-        quit_button = draw_button("Quit", 300, 400, 200, 60)
+        button_width, button_height = 200, 60
+        center_x = (WIDTH - button_width) // 2  
+
+        play_button = draw_button("Play", center_x, 200, button_width, button_height)
+        settings_button = draw_button("Settings", center_x, 300, button_width, button_height)
+        quit_button = draw_button("Quit", center_x, 400, button_width, button_height)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
