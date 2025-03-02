@@ -5,7 +5,7 @@ import os
 
 pygame.init()
 
-WIDTH, HEIGHT = 800, 800 
+WIDTH, HEIGHT = 1000, 800 
 screen = pygame.display.set_mode((WIDTH, HEIGHT)) 
 pygame.display.set_caption("Car Customization")
 font = pygame.font.SysFont(None, 40)
@@ -67,15 +67,14 @@ def customization_screen():
     running = True
     while running:
         screen.fill(WHITE)
-        screen.blit(road_images[selected_road], (0, 0))
-
         mx, my = pygame.mouse.get_pos()
 
         
 
-        draw_text("Car Customization", font, BLACK, screen, WIDTH // 2, 50)
 
-        back_button = pygame.Rect(50, 500, 150, 60)
+        draw_text("Car Customization", font, BLACK, screen, (WIDTH//2)-150 , 50)
+
+        back_button = pygame.Rect(50, 650, 150, 60)
         pygame.draw.rect(screen, GRAY if back_button.collidepoint((mx, my)) else BLACK, back_button)
         draw_text("Back", font, WHITE, screen, back_button.centerx, back_button.centery)
 
@@ -88,12 +87,12 @@ def customization_screen():
             draw_text(f"{skin.split('.')[0]} - {skin_costs[skin]} pts", font, WHITE, screen, button.centerx, button.centery)
             y_offset += 120
 
-        road_y_offset = 400
+        road_y_offset = 100
         for road in roads:
-            road_button = pygame.Rect(600, road_y_offset, 150, 60)
+            road_button = pygame.Rect(900, road_y_offset, 200, 80)
             pygame.draw.rect(screen, GRAY if road != selected_road else (0, 255, 0), road_button)
             draw_text(road.split('.')[0], small_font, WHITE, screen, road_button.centerx, road_button.centery)
-            road_y_offset += 80
+            road_y_offset += 120
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -113,25 +112,24 @@ def customization_screen():
                         save_customization_data(customization_data)
                     y_offset += 120
 
-                road_y_offset = 400
+                road_y_offset = 100
                 for road in roads:
-                    road_button = pygame.Rect(600, road_y_offset, 150, 60)
+                    road_button = pygame.Rect(900, road_y_offset, 200, 80)
                     if road_button.collidepoint((mx, my)):
                         selected_road = road
                         customization_data["selected_road"] = road
                         save_customization_data(customization_data)
-                    road_y_offset += 80
+                    road_y_offset += 120
 
-        draw_text("Road Customization", font, BLACK, screen, WIDTH // 2, y_offset + 50)
+        draw_text("Road Customization", font, BLACK, screen, WIDTH-100 , 50)
 
-        road_x, road_y = 150, 450
+        road_x, road_y = 650, 90
         for road in roads:
-            button = pygame.Rect(road_x, road_y, 150, 100)
-            pygame.draw.rect(screen, GRAY if road != selected_road else (0, 255, 0), button)
-            road_image = pygame.transform.scale(road_images[road], (120, 80))
-            screen.blit(road_image, (road_x + 15, road_y + 10))
 
-            road_x += 180  
+            road_image = pygame.transform.scale(road_images[road], (120, 80))  # Розмір картинки
+            screen.blit(road_image, (road_x + 15, road_y + 10))  # Відображаємо картинку на екрані
+            
+            road_y += 120  # Відступ між елементами
 
         pygame.display.flip()
 
