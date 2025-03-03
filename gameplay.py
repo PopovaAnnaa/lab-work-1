@@ -15,7 +15,6 @@ WHITE = (255, 255, 255)
 clock = pygame.time.Clock()
 FPS = 60
 
-# Функція для завантаження даних
 def load_json_data(filename, default_data):
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
         return default_data
@@ -26,34 +25,31 @@ def load_json_data(filename, default_data):
         print(f"Помилка завантаження {filename}: {e}")
         return default_data
 
-# Завантажуємо дані
 game_data = load_json_data("game_data.json", {"score": 0, "highscore": 0})
-customization_data = load_json_data("customization_data.json", {"selected_skin": "cars1.png", "selected_road": "road1.png"})
+customization_data = load_json_data("customization_data.json", {"selected_skin": "Basic.png", "selected_road": "Highway.png"})
 
-# Завантажуємо вибрану дорогу
 def load_road_image(road_name):
     path = os.path.join("assets", "roads", road_name)
     if os.path.exists(path):
         return pygame.transform.scale(pygame.image.load(path), (WIDTH, HEIGHT))
-    return pygame.Surface((WIDTH, HEIGHT))  # Порожній фон, якщо файлу немає
+    return pygame.Surface((WIDTH, HEIGHT))  
 
-selected_road = customization_data.get("selected_road", "road1.png")
+selected_road = customization_data.get("selected_road", "Highway.png")
 bg1 = load_road_image(selected_road)
 bg2 = load_road_image(selected_road)
 
 bg_y1 = 0
 bg_y2 = -HEIGHT
 
-car_width, car_height = 120, 240  # Розміри машини
+car_width, car_height = 120, 240 
 
-# Завантаження машини
 car_image = pygame.image.load(os.path.join("assets/cars", customization_data["selected_skin"]))
 car_image = pygame.transform.scale(car_image, (car_width, car_height))
 
 obstacle_images = [
-    pygame.image.load("assets/cars/cars1.png"),
-    pygame.image.load("assets/cars/cars2.png"),
-    pygame.image.load("assets/cars/cars3.png")
+    pygame.image.load("assets/cars/cars3.png"),
+    pygame.image.load("assets/cars/cars4.png"),
+    pygame.image.load("assets/cars/cars5.png")
 ]
 obstacle_images = [pygame.transform.scale(img, (car_width, car_height)) for img in obstacle_images]
 
@@ -92,11 +88,14 @@ def save_game_data(score, highscore):
     with open("game_data.json", "w") as file:
         json.dump(game_data, file)
 
+def save_customization_data():
+    with open("customization_data.json", "w") as file:
+        json.dump(customization_data, file)
+
 def run_game():
     global bg_y1, bg_y2, car_image, customization_data, bg1, bg2, selected_road
 
     car_x = LANES[1] - car_width/2
-    car_y = HEIGHT - 200
     car_speed = 5
     max_speed = 15
     obstacle_speed = 7
@@ -106,25 +105,46 @@ def run_game():
 
     highscore = game_data["highscore"]
 
+    unlocked_skins = ["Basic.png"]  
+    if highscore >= 10:
+        unlocked_skins.append("Striker.png")
+    if highscore >= 20:
+        unlocked_skins.append("Wrecker.png")
+        
+    def update_car_image(selected_skin):
+        car_image = pygame.image.load(os.path.join("assets/cars", selected_skin))
+        car_image = pygame.transform.scale(car_image, (120, 240))
+        return car_image
+
     def update_skin_and_road():
-        """Оновлює скин та дорогу в реальному часі."""
-        global car_image, bg1, bg2, selected_road
+        global car_image, bg1, bg2, selected_road, customization_data
         new_data = load_json_data("customization_data.json", customization_data)
 
         if new_data["selected_skin"] != customization_data["selected_skin"]:
             customization_data["selected_skin"] = new_data["selected_skin"]
-            car_image = pygame.image.load(os.path.join("assets/cars", customization_data["selected_skin"]))
-            car_image = pygame.transform.scale(car_image, (car_width, car_height))
-            print(f"Машинка оновлена: {customization_data['selected_skin']}")  
+            car_image = update_car_image(customization_data["selected_skin"])
 
         if new_data["selected_road"] != selected_road:
             selected_road = new_data["selected_road"]
             bg1 = load_road_image(selected_road)
             bg2 = load_road_image(selected_road)
-            print(f"Фон оновлений: {selected_road}")
 
     while running:
         update_skin_and_road()  
+        
+        if score >= 10 and "Striker.png" not in unlocked_skins:
+            unlocked_skins.append("Striker.png")
+            customization_data["selected_skin"] = "Striker.png"
+            car_image = update_car_image(customization_data["selected_skin"])
+            save_game_data(score, highscore)
+            save_customization_data()  
+
+        if score >= 20 and "Wrecker.png" not in unlocked_skins:
+            unlocked_skins.append("Wrecker.png")
+            customization_data["selected_skin"] = "Wrecker.png"
+            car_image = update_car_image(customization_data["selected_skin"])
+            save_game_data(score, highscore)
+            save_customization_data()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -164,7 +184,7 @@ def run_game():
         if keys[pygame.K_DOWN]:
             obstacle_speed = max(5, obstacle_speed - 0.2)
 
-        car_y = HEIGHT - 250 + (max_speed - obstacle_speed) * 3
+        car_y = HEIGHT - 300 + (max_speed - obstacle_speed) * 3
 
         if random.randint(1, 30) == 1:
             lane = random.choice(LANES)
