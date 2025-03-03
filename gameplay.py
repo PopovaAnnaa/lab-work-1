@@ -44,18 +44,20 @@ bg2 = load_road_image(selected_road)
 bg_y1 = 0
 bg_y2 = -HEIGHT
 
+car_width, car_height = 120, 240  # Розміри машини
+
 # Завантаження машини
 car_image = pygame.image.load(os.path.join("assets/cars", customization_data["selected_skin"]))
-car_image = pygame.transform.scale(car_image, (80, 160))
+car_image = pygame.transform.scale(car_image, (car_width, car_height))
 
 obstacle_images = [
     pygame.image.load("assets/cars/cars1.png"),
     pygame.image.load("assets/cars/cars2.png"),
     pygame.image.load("assets/cars/cars3.png")
 ]
-obstacle_images = [pygame.transform.scale(img, (80, 160)) for img in obstacle_images]
+obstacle_images = [pygame.transform.scale(img, (car_width, car_height)) for img in obstacle_images]
 
-font = pygame.font.SysFont(None, 36)
+font = pygame.font.Font("fonts/Minecraft.ttf", 30)
 
 def show_score(score):
     score_text = font.render(f"Score: {score}", True, WHITE)
@@ -93,7 +95,7 @@ def save_game_data(score, highscore):
 def run_game():
     global bg_y1, bg_y2, car_image, customization_data, bg1, bg2, selected_road
 
-    car_x = LANES[1] - 40
+    car_x = LANES[1] - car_width/2
     car_y = HEIGHT - 200
     car_speed = 5
     max_speed = 15
@@ -112,7 +114,7 @@ def run_game():
         if new_data["selected_skin"] != customization_data["selected_skin"]:
             customization_data["selected_skin"] = new_data["selected_skin"]
             car_image = pygame.image.load(os.path.join("assets/cars", customization_data["selected_skin"]))
-            car_image = pygame.transform.scale(car_image, (80, 160))
+            car_image = pygame.transform.scale(car_image, (car_width, car_height))
             print(f"Машинка оновлена: {customization_data['selected_skin']}")  
 
         if new_data["selected_road"] != selected_road:
@@ -154,21 +156,21 @@ def run_game():
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            car_x = max(LANES[0] - 40, car_x - car_speed * 3)
+            car_x = max(LANES[0] - car_width/2, car_x - car_speed * 3)
         if keys[pygame.K_RIGHT]:
-            car_x = min(LANES[-1] - 40, car_x + car_speed * 3)
+            car_x = min(LANES[-1] - car_width/2, car_x + car_speed * 3)
         if keys[pygame.K_UP]:
             obstacle_speed = min(max_speed, obstacle_speed + 0.2)
         if keys[pygame.K_DOWN]:
             obstacle_speed = max(5, obstacle_speed - 0.2)
 
-        car_y = HEIGHT - 200 + (max_speed - obstacle_speed) * 3
+        car_y = HEIGHT - 250 + (max_speed - obstacle_speed) * 3
 
         if random.randint(1, 30) == 1:
             lane = random.choice(LANES)
             if all(abs(obstacle[0].x - lane) > 80 for obstacle in obstacles):
                 img = random.choice(obstacle_images)
-                obstacles.append((pygame.Rect(lane - 40, -160, 80, 160), img))
+                obstacles.append((pygame.Rect(lane - car_width/2, -160, car_width, car_height), img))
 
         for obstacle in obstacles[:]:
             rect, img = obstacle
