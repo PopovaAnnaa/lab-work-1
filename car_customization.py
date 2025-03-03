@@ -19,19 +19,19 @@ BLACK = (0, 0, 0)
 CAR_ASSETS_PATH = os.path.join("assets", "cars")
 ROAD_ASSETS_PATH = os.path.join("assets", "roads")
 
-skins = ["cars1.png", "cars2.png", "cars3.png"]
-skin_costs = {"cars1.png": 0, "cars2.png": 10, "cars3.png": 20}
-roads = ["road1.png", "road2.png", "road3.png"]
+skins = ["Basic.png", "Striker.png", "Wrecker.png"]
+skin_costs = {"Basic.png": 0, "Striker.png": 10, "Wrecker.png": 20}
+roads = ["Highway.png", "Downtown.png", "Wild West.png", "Snowpath.png"]
 
 def load_customization_data():
     try:
         with open("customization_data.json", "r") as file:
             data = json.load(file)
             if "selected_road" not in data:
-                data["selected_road"] = "road1.png"
+                data["selected_road"] = "Highway.png"
             return data
     except FileNotFoundError:
-        return {"selected_skin": "cars1.png", "selected_road": "road1.png"}
+        return {"selected_skin": "Basic.png", "selected_road": "Highway.png"}
 
 def save_customization_data(data):
     with open("customization_data.json", "w") as file:
@@ -59,11 +59,11 @@ def customization_screen():
     customization_data = load_customization_data()
     game_data = load_game_data()
 
-    unlocked_skins = ["cars1.png"]
+    unlocked_skins = ["Basic.png"]
     if game_data["highscore"] >= 10:
-        unlocked_skins.append("cars2.png")
+        unlocked_skins.append("Striker.png")
     if game_data["highscore"] >= 20:
-        unlocked_skins.append("cars3.png")
+        unlocked_skins.append("Wrecker.png")
 
     selected_skin = customization_data["selected_skin"]
     selected_road = customization_data["selected_road"]
@@ -131,11 +131,9 @@ def customization_screen():
 
         road_x, road_y = 650, 90
         for road in roads:
-
-            road_image = pygame.transform.scale(road_images[road], (120, 80))  # Розмір картинки
-            screen.blit(road_image, (road_x + 15, road_y + 10))  # Відображаємо картинку на екрані
-            
-            road_y += 120  # Відступ між елементами
+            road_image = pygame.transform.scale(road_images[road], (120, 80))
+            screen.blit(road_image, (road_x + 15, road_y + 10))
+            road_y += 120
 
         pygame.display.flip()
 
