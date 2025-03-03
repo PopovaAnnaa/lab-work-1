@@ -79,7 +79,7 @@ def customization_screen():
         draw_text("Car Customization", font, BLACK, screen, (WIDTH//2)-150 , 50)
 
         back_button = pygame.Rect(50, 650, 150, 60)
-        pygame.draw.rect(screen, GRAY if back_button.collidepoint((mx, my)) else BLACK, back_button, border_radius=5)
+        pygame.draw.rect(screen, GRAY if back_button.collidepoint((mx, my)) else BLACK, back_button)
         draw_text("Back", small_font, WHITE, screen, back_button.centerx, back_button.centery)
 
         y_offset = 100
@@ -87,7 +87,7 @@ def customization_screen():
         car_spacing = 100 
         for skin in unlocked_skins:
             button = pygame.Rect(300, y_offset + 15, 250, 80)
-            pygame.draw.rect(screen, GRAY if skin != selected_skin else (19, 207, 19), button, border_radius=10)
+            pygame.draw.rect(screen, BLACK if skin != selected_skin else (19, 207, 19), button)
             car_image = scale_image_to_width(car_images[skin], car_button_height)
             screen.blit(car_image, (100, y_offset))
             draw_text(f"{skin.split('.')[0]} - {skin_costs[skin]} pts", small_font, WHITE, screen, button.centerx, button.centery)
@@ -96,7 +96,7 @@ def customization_screen():
         road_y_offset = 100
         for road in roads:
             road_button = pygame.Rect(900, road_y_offset, 200, 80)
-            pygame.draw.rect(screen, GRAY if road != selected_road else (19, 207, 19), road_button, border_radius=10)
+            pygame.draw.rect(screen, BLACK if road != selected_road else (19, 207, 19), road_button)
             draw_text(road.split('.')[0], small_font, WHITE, screen, road_button.centerx, road_button.centery)
             road_y_offset += 120
 
