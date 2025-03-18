@@ -22,5 +22,5 @@ def test_run_game_collision():
     car_y = HEIGHT - 300
     obstacle_rect = pygame.Rect(car_x, car_y, car_width, car_height)
     obstacles = [(obstacle_rect, random.choice(obstacle_images))]
-    for rect in obstacles:
+    for rect, _ in obstacles:
         assert rect.colliderect(pygame.Rect(car_x, car_y, car_width, car_height)) is True
