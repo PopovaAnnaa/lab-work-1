@@ -2,6 +2,7 @@ from unittest.mock import patch, mock_open
 import json
 from gameplay import save_game_data
 
+
 def test_save_game_data():
     with patch("builtins.open", mock_open()) as mock_file:
         save_game_data(10, 20)

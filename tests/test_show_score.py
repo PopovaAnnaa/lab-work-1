@@ -1,6 +1,7 @@
 from unittest.mock import patch, MagicMock
 from gameplay import show_score, WHITE
 
+
 def test_show_score():
     mock_font = MagicMock()
     mock_font.render.return_value = "mocked_text"  # Імітуємо повернення тексту

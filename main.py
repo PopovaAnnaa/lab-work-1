@@ -4,6 +4,7 @@ import gameplay
 
 pygame.init()
 
+
 def main():
     while True:
         choice = main_menu.show_menu()
@@ -13,6 +14,6 @@ def main():
             pygame.quit()
             break
 
+
 if __name__ == "__main__":
     main()
-

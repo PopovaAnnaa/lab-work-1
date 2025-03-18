@@ -5,8 +5,8 @@ import os
 
 pygame.init()
 
-WIDTH, HEIGHT = 1000, 800 
-screen = pygame.display.set_mode((WIDTH, HEIGHT)) 
+WIDTH, HEIGHT = 1000, 800
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Car Customization")
 
 font = pygame.font.Font("fonts/Minecraft.ttf", 40)
@@ -23,6 +23,7 @@ skins = ["Basic.png", "Striker.png", "Wrecker.png"]
 skin_costs = {"Basic.png": 0, "Striker.png": 10, "Wrecker.png": 20}
 roads = ["Highway.png", "Downtown.png", "Wild West.png", "Snowpath.png"]
 
+
 def load_customization_data():
     try:
         with open("customization_data.json", "r") as file:
@@ -33,9 +34,11 @@ def load_customization_data():
     except FileNotFoundError:
         return {"selected_skin": "Basic.png", "selected_road": "Highway.png"}
 
+
 def save_customization_data(data):
     with open("customization_data.json", "w") as file:
         json.dump(data, file)
+
 
 def load_game_data():
     try:
@@ -44,15 +47,18 @@ def load_game_data():
     except FileNotFoundError:
         return {"score": 0, "highscore": 0}
 
+
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
     text_rect = text_obj.get_rect(center=(x, y))
     surface.blit(text_obj, text_rect)
 
+
 def scale_image_to_width(image, width):
     original_width, original_height = image.get_size()
     new_height = int((width / original_width) * original_height)
     return pygame.transform.scale(image, (width, new_height))
+
 
 def customization_screen():
     global screen
@@ -76,7 +82,7 @@ def customization_screen():
         screen.fill(WHITE)
         mx, my = pygame.mouse.get_pos()
 
-        draw_text("Car Customization", font, BLACK, screen, (WIDTH//2)-150 , 50)
+        draw_text("Car Customization", font, BLACK, screen, (WIDTH // 2) - 150, 50)
 
         back_button = pygame.Rect(50, 650, 150, 60)
         pygame.draw.rect(screen, GRAY if back_button.collidepoint((mx, my)) else BLACK, back_button)
@@ -84,7 +90,7 @@ def customization_screen():
 
         y_offset = 100
         car_button_height = 60
-        car_spacing = 100 
+        car_spacing = 100
         for skin in unlocked_skins:
             button = pygame.Rect(300, y_offset + 15, 250, 80)
             pygame.draw.rect(screen, BLACK if skin != selected_skin else (19, 207, 19), button)
@@ -127,7 +133,7 @@ def customization_screen():
                         save_customization_data(customization_data)
                     road_y_offset += 120
 
-        draw_text("Road Customization", font, BLACK, screen, WIDTH-100 , 50)
+        draw_text("Road Customization", font, BLACK, screen, WIDTH - 100, 50)
 
         road_x, road_y = 650, 90
         for road in roads:
@@ -136,6 +142,7 @@ def customization_screen():
             road_y += 120
 
         pygame.display.flip()
+
 
 if __name__ == "__main__":
     customization_screen()
