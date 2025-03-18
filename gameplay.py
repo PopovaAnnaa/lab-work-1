@@ -92,6 +92,24 @@ def save_customization_data():
     with open("customization_data.json", "w") as file:
         json.dump(customization_data, file)
 
+def update_car_image(selected_skin):
+    car_image = pygame.image.load(os.path.join("assets/cars", selected_skin))
+    car_image = pygame.transform.scale(car_image, (120, 240))
+    return car_image
+
+def update_skin_and_road():
+    global car_image, bg1, bg2, selected_road, customization_data
+    new_data = load_json_data("customization_data.json", customization_data)
+
+    if new_data["selected_skin"] != customization_data["selected_skin"]:
+        customization_data["selected_skin"] = new_data["selected_skin"]
+        car_image = update_car_image(customization_data["selected_skin"])
+
+    if new_data["selected_road"] != selected_road:
+        selected_road = new_data["selected_road"]
+        bg1 = load_road_image(selected_road)
+        bg2 = load_road_image(selected_road)
+
 def run_game():
     global bg_y1, bg_y2, car_image, customization_data, bg1, bg2, selected_road
 
@@ -110,24 +128,6 @@ def run_game():
         unlocked_skins.append("Striker.png")
     if highscore >= 20:
         unlocked_skins.append("Wrecker.png")
-        
-    def update_car_image(selected_skin):
-        car_image = pygame.image.load(os.path.join("assets/cars", selected_skin))
-        car_image = pygame.transform.scale(car_image, (120, 240))
-        return car_image
-
-    def update_skin_and_road():
-        global car_image, bg1, bg2, selected_road, customization_data
-        new_data = load_json_data("customization_data.json", customization_data)
-
-        if new_data["selected_skin"] != customization_data["selected_skin"]:
-            customization_data["selected_skin"] = new_data["selected_skin"]
-            car_image = update_car_image(customization_data["selected_skin"])
-
-        if new_data["selected_road"] != selected_road:
-            selected_road = new_data["selected_road"]
-            bg1 = load_road_image(selected_road)
-            bg2 = load_road_image(selected_road)
 
     while running:
         update_skin_and_road()  
