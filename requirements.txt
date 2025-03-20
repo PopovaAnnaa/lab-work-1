@@ -37,3 +37,4 @@ six==1.16.0
 sympy==1.13.2
 threadpoolctl==3.5.0
 tifffile==2024.8.30
+pytest-mock==3.14.0
