@@ -4,7 +4,7 @@ from gameplay import load_road_image, WIDTH, HEIGHT
 
 
 def test_load_road_image_exists():
-    mock_surface = MagicMock(spec=pygame.Surface)  # Створюємо фейковий Surface
+    mock_surface = MagicMock(spec=pygame.Surface)
     with patch("pygame.image.load", return_value=mock_surface):
         with patch("pygame.transform.scale", return_value=mock_surface) as mock_scale:
             result = load_road_image("Highway.png")
