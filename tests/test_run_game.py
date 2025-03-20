@@ -6,7 +6,7 @@ from gameplay import car_width, car_height, LANES, HEIGHT
 
 def test_run_game_obstacles():
     global obstacle_images
-    obstacle_images = [pygame.Surface((car_width, car_height))] * 3  # Мокаємо зображення перешкод
+    obstacle_images = [pygame.Surface((car_width, car_height))] * 3
     with patch("random.randint", return_value=1), patch("random.choice", return_value=LANES[1]):
         obstacles = []
         lane = random.choice(LANES)
@@ -17,7 +17,7 @@ def test_run_game_obstacles():
 
 def test_run_game_collision():
     global obstacle_images
-    obstacle_images = [pygame.Surface((car_width, car_height))] * 3  # Мокаємо зображення перешкод
+    obstacle_images = [pygame.Surface((car_width, car_height))] * 3
     car_x = LANES[1] - car_width / 2
     car_y = HEIGHT - 300
     obstacle_rect = pygame.Rect(car_x, car_y, car_width, car_height)

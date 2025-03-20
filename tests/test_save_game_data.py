@@ -9,7 +9,6 @@ def test_save_game_data():
 
         mock_file.assert_called_once_with("game_data.json", "w")
 
-        # Отримуємо всі write() виклики та об'єднуємо їх у один рядок
         written_data = "".join(call_args[0][0] for call_args in mock_file().write.call_args_list)
-        expected_json = json.dumps({"score": 10, "highscore": 20})  # Очікуваний JSON
+        expected_json = json.dumps({"score": 10, "highscore": 20})
         assert written_data == expected_json, f"Expected {expected_json}, but got {written_data}"
