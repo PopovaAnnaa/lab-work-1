@@ -31,11 +31,11 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=1 --disable-warnings -q --html=reports/test_report.html
+        pytest --maxfail=1 --disable-warnings -q --html=reports/test_report.html --self-contained-html
 
     - name: Run linting with flake8
       run: |
-        flake8 --max-line-length=120 --output-file=reports/lint_report.txt
+        flake8 --max-line-length=120 --format=html --htmldir=reports/flake8-html
 
     - name: Upload test report to GitHub
       uses: actions/upload-artifact@v4
@@ -47,4 +47,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: lint-report
-        path: reports/lint_report.txt
+        path: reports/flake8-html
